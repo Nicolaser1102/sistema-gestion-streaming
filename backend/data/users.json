@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "20260216103419",
+    "name": "Nico",
+    "email": "nico@test.com",
+    "passwordHash": "$2a$10$YHBMMbnHRyOdToJckZnMR.hQp2Pb4w8cf8sUY2IcgC1jpLaPgMwfi",
+    "role": "USER",
+    "createdAt": "2026-02-16T10:34:19.0543611-05:00"
+  }
+]
