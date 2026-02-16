@@ -93,3 +93,18 @@ func (r *UserRepoJSON) Create(user models.User) error {
 
 	return os.WriteFile(r.filePath, updatedData, 0644)
 }
+
+func (r *UserRepoJSON) FindByID(id string) (*models.User, error) {
+	users, err := r.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, u := range users {
+		if u.ID == id {
+			uu := u
+			return &uu, nil
+		}
+	}
+	return nil, nil
+}
