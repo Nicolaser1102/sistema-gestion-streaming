@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": "1",
+    "type": "MOVIE",
+    "title": "Inception Editada",
+    "synopsis": "Sinopsis modificada",
+    "genre": "Sci-Fi",
+    "year": 2010,
+    "durationMin": 150,
+    "coverURL": "",
+    "active": false,
+    "createdAt": "2025-03-03T10:00:00Z",
+    "updatedAt": "2026-02-16T19:18:41.4054517-05:00"
+  },
+  {
+    "id": "2",
+    "type": "SERIES",
+    "title": "Breaking Bad 3",
+    "synopsis": "Un profesor de química se convierte en fabricante de metanfetamina.",
+    "genre": "Drama",
+    "year": 2009,
+    "durationMin": 50,
+    "coverURL": "",
+    "active": true,
+    "createdAt": "2025-03-03T10:00:00Z",
+    "updatedAt": "2026-02-16T19:29:00.0511928-05:00"
+  },
+  {
+    "id": "20260216185346",
+    "type": "MOVIE",
+    "title": "Nueva Película",
+    "synopsis": "Contenido creado por admin",
+    "genre": "Action",
+    "year": 2025,
+    "durationMin": 120,
+    "coverURL": "",
+    "active": false,
+    "createdAt": "2026-02-16T18:53:46.3602098-05:00",
+    "updatedAt": "2026-02-16T19:54:18.7176423-05:00"
+  },
+  {
+    "id": "20260216185607",
+    "type": "MOVIE",
+    "title": "Mazinger Z",
+    "synopsis": "Un robot que ayuda a todo el mundo",
+    "genre": "Acción",
+    "year": 2002,
+    "durationMin": 120,
+    "coverURL": "",
+    "active": true,
+    "createdAt": "2026-02-16T18:56:07.1618169-05:00",
+    "updatedAt": "2026-02-16T19:54:37.8936166-05:00"
+  },
+  {
+    "id": "20260216195024",
+    "type": "MOVIE",
+    "title": "Película Front End",
+    "synopsis": "Prueba Pelicula desde front end",
+    "genre": "Acción",
+    "year": 2005,
+    "durationMin": 125,
+    "coverURL": "",
+    "active": true,
+    "createdAt": "2026-02-16T19:50:24.5495753-05:00",
+    "updatedAt": "2026-02-16T19:50:24.5495753-05:00"
+  }
+]

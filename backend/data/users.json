@@ -1,5 +1,14 @@
 [
-  {
+
+      {
+    "id": "20260216114427",
+    "name": "Administrator",
+    "email": "administrator@test.com",
+    "passwordHash": "$2a$10$esFjPOfGvwgDPwQeYN1AaOml3iK8cnuHcFqQQtnzoqAJIg5Xbt0aS",
+    "role": "ADMIN",
+    "createdAt": "2026-02-16T11:44:27.7604054-05:00"
+  }
+    ,{
     "id": "20260216103419",
     "name": "Nico",
     "email": "nico@test.com",
@@ -8,11 +17,11 @@
     "createdAt": "2026-02-16T10:34:19.0543611-05:00"
   },
   {
-    "id": "20260216114427",
-    "name": "Nico",
-    "email": "nico@test2.com",
-    "passwordHash": "$2a$10$esFjPOfGvwgDPwQeYN1AaOml3iK8cnuHcFqQQtnzoqAJIg5Xbt0aS",
+    "id": "20260216182056",
+    "name": "nicolaser",
+    "email": "nicolaser@test.com",
+    "passwordHash": "$2a$10$nDJXkzMc1S1oGYa8VYbIDOhTMwZPZdujCV0JON7444m89hpZRhUEa",
     "role": "USER",
-    "createdAt": "2026-02-16T11:44:27.7604054-05:00"
+    "createdAt": "2026-02-16T18:20:56.7494119-05:00"
   }
 ]

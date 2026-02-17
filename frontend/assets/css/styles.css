@@ -20,3 +20,14 @@ a {
 button {
     margin-top: 10px;
 }
+
+.card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+input, select, button {
+  margin-right: 6px;
+  margin-bottom: 6px;
+}

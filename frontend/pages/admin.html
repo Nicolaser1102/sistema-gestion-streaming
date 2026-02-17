@@ -1,17 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+  <meta charset="UTF-8">
+  <title>Panel Administrativo</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
-    <h2>Administración de Contenidos</h2>
+  <h2>Panel de Administración</h2>
 
-    <p>Panel exclusivo para administradores.</p>
+  <div id="msg"></div>
 
-    <a href="../index.html">Volver</a>
+  <h3>Crear Nuevo Contenido</h3>
 
+  <form id="createForm">
+    <input id="title" placeholder="Título" required>
+    <input id="genre" placeholder="Género" required>
+    <input id="year" type="number" placeholder="Año" required>
+    <select id="type">
+      <option value="MOVIE">Película</option>
+      <option value="SERIES">Serie</option>
+    </select>
+    <textarea id="synopsis" placeholder="Sinopsis"></textarea>
+    <input id="duration" type="number" placeholder="Duración (min)">
+    <button type="submit">Crear</button>
+  </form>
+
+  <hr>
+
+
+<h3>Editar Contenido</h3>
+<form id="editForm" style="display:none;">
+  <input id="editId" placeholder="ID" readonly>
+
+  <input id="editTitle" placeholder="Título" required>
+  <input id="editGenre" placeholder="Género" required>
+  <input id="editYear" type="number" placeholder="Año" required>
+
+  <select id="editType">
+    <option value="MOVIE">Película</option>
+    <option value="SERIES">Serie</option>
+  </select>
+
+  <textarea id="editSynopsis" placeholder="Sinopsis"></textarea>
+  <input id="editDuration" type="number" placeholder="Duración (min)">
+  <select id="editActive">
+    <option value="true">Activo</option>
+    <option value="false">Inactivo</option>
+  </select>
+
+  <button type="submit">Guardar cambios</button>
+  <button id="btnCancelEdit" type="button">Cancelar</button>
+</form>
+
+
+  <h3>Lista de Contenidos</h3>
+  <div id="contentList"></div>
+
+  <a href="../index.html">Volver</a>
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/admin.js"></script>
 </body>
 </html>

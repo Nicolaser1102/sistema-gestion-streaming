@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Catalog</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+  <meta charset="UTF-8" />
+  <title>Catálogo</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
-    <h2>Catálogo de Contenidos</h2>
+    <div id="navbar"></div>
 
-    <p>Aquí se mostrará el catálogo.</p>
+  <h2>Catálogo de Contenidos</h2>
 
+  <div style="margin-bottom: 12px;">
+    <input id="q" placeholder="Buscar por título..." />
+    <select id="type">
+      <option value="">Tipo (todos)</option>
+      <option value="MOVIE">Película</option>
+      <option value="SERIES">Serie</option>
+    </select>
+    <input id="genre" placeholder="Género (ej: Drama)" />
+    <input id="year" placeholder="Año (ej: 2010)" style="width:120px;" />
+    <button id="btnSearch">Buscar</button>
+  </div>
+
+  <div id="list">
+    <p>Cargando...</p>
+  </div>
+
+  <div style="margin-top: 16px;">
+    <a href="mylist.html">Mi lista</a>
     <a href="../index.html">Volver</a>
 
+  </div>
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/catalog.js"></script>
 </body>
 </html>
