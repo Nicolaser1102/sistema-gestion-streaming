@@ -25,91 +25,120 @@ async function loadPlayer() {
     return;
   }
 
-  // 1) cargar info del contenido (público)
+  const video = document.getElementById("video");
+
+  // DEBUG: ver eventos
+  video.addEventListener("stalled", () => console.warn("VIDEO stalled"));
+  video.addEventListener("waiting", () => console.warn("VIDEO waiting"));
+  video.addEventListener("pause", () => console.warn("VIDEO paused at", video.currentTime));
+  video.addEventListener("error", () => console.error("VIDEO error", video.error));
+
+  // 1) Cargar contenido
   const content = await apiGet(`/contents/${encodeURIComponent(id)}`);
+
   document.getElementById("info").innerHTML = `
     <h3>${content.title}</h3>
     <p><b>Género:</b> ${content.genre} | <b>Año:</b> ${content.year} | <b>Tipo:</b> ${content.type}</p>
     <p>${content.synopsis || ""}</p>
   `;
 
-  // 2) asignar video demo (si no tienes coverURL/videoURL real)
-  // Si luego agregas videoURL al modelo, aquí solo cambias a content.videoURL
-  const video = document.getElementById("video");
+  // 2) Asignar fuente de video (SOLO UNA VEZ)
+  const BACKEND_BASE = "http://localhost:8080"; // fijo para evitar errores
+  if (!content.videoURL) {
+    showMsg("⚠️ Este contenido no tiene videoURL configurado.");
+    return;
+  }
 
-  const BACKEND_BASE = "http://localhost:8080";
-video.src = `${BACKEND_BASE}${content.videoURL}`;
-  //deo.src = "https://www.w3schools.com/html/mov_bbb.mp4";
+  video.src = `${BACKEND_BASE}${content.videoURL}`;
+  video.preload = "auto";
 
-  // 3) obtener progreso
+  // 3) Obtener progreso backend + local (antes de loadedmetadata)
+  let backendSeconds = 0;
+  let backendPercent = 0;
+
   try {
     const prog = await apiGet(`/playback/${encodeURIComponent(id)}`, true);
-
-    // si existe seconds, continuar
-    if (prog && prog.seconds && prog.seconds > 0) {
-      showMsg(`Continuando desde ${prog.seconds}s (${prog.percent || 0}%).`);
-      // esperar metadata para poder setear currentTime
-      video.addEventListener("loadedmetadata", () => {
-        video.currentTime = prog.seconds;
-      }, { once: true });
-    } else {
-      showMsg("Iniciando desde el inicio.");
-    }
+    backendSeconds = prog?.seconds || 0;
+    backendPercent = prog?.percent || 0;
   } catch (e) {
-    // si es 403 es suscripción no activa
-    console.error(e);
+    console.error("Get progress failed:", e);
     const msg = String(e);
     if (msg.includes("403")) {
       showMsg("⚠️ Suscripción no activa. No puedes reproducir.");
       video.controls = false;
-    } else {
-      showMsg("No se pudo cargar el progreso.");
+      return;
     }
   }
 
-  // 4) Guardar progreso cada 5s mientras reproduce
-  let lastSavedSecond = 0;
+  const localSeconds = parseInt(localStorage.getItem(`player_pos_${id}`) || "0", 10) || 0;
+  const startSeconds = Math.max(backendSeconds, localSeconds);
 
-  async function saveProgress() {
+  console.log("ID:", id);
+  console.log("backendSeconds:", backendSeconds, "localSeconds:", localSeconds, "startSeconds:", startSeconds);
+
+  // 4) Esperar metadata y recién setear currentTime
+  video.addEventListener("loadedmetadata", () => {
+    if (startSeconds > 0 && startSeconds < video.duration) {
+      video.currentTime = startSeconds;
+      showMsg(`Continuando desde ${startSeconds}s (${Math.floor((startSeconds / video.duration) * 100)}%).`);
+      console.log("✅ currentTime set to:", startSeconds);
+    } else {
+      showMsg("Iniciando desde el inicio.");
+      console.log("ℹ️ startSeconds inválido o 0:", startSeconds, "duration:", video.duration);
+    }
+  }, { once: true });
+
+  // 5) Guardado de progreso (backend + local)
+  let lastSavedSecond = 0;
+  let saving = false;
+
+  async function saveProgress(force = false) {
     if (!video.duration || isNaN(video.duration)) return;
 
     const seconds = Math.floor(video.currentTime);
-    if (seconds === lastSavedSecond) return;
+    if (!force && (seconds - lastSavedSecond < 15)) return;
+    if (saving) return;
+
+    // guardar local inmediato
+    localStorage.setItem(`player_pos_${id}`, String(seconds));
 
     const percent = Math.min(100, Math.max(0, (video.currentTime / video.duration) * 100));
 
+    saving = true;
     try {
-      await apiPut(`/playback/${encodeURIComponent(id)}/progress`, {
-        seconds,
-        percent
-      }, true);
+      await apiPut(`/playback/${encodeURIComponent(id)}/progress`, { seconds, percent }, true);
       lastSavedSecond = seconds;
-      // no spamear mensaje cada vez
     } catch (e) {
-      console.error(e);
+      console.error("Save progress failed:", e);
+    } finally {
+      saving = false;
     }
   }
 
-  // cada 5 segundos
+  // Guardar cada 15s mientras reproduce
   setInterval(() => {
-    if (!video.paused && !video.ended) saveProgress();
-  }, 5000);
+    if (!video.paused && !video.ended) saveProgress(false);
+  }, 15000);
 
-  // guardar al pausar
-  video.addEventListener("pause", saveProgress);
+  // Guardar al pausar y evitar reset visual a 0
+  video.addEventListener("pause", () => {
+    const t = video.currentTime;
+    localStorage.setItem(`player_pos_${id}`, String(Math.floor(t)));
+    saveProgress(true);
 
-  // guardar al terminar (y marcar completado por percent>=90)
-  video.addEventListener("ended", async () => {
-    try {
-      await apiPut(`/playback/${encodeURIComponent(id)}/progress`, {
-        seconds: Math.floor(video.duration),
-        percent: 100
-      }, true);
-      showMsg("✅ Reproducción finalizada. Progreso guardado (completado).");
-    } catch (e) {
-      console.error(e);
-      showMsg("Finalizó, pero no se pudo guardar.");
-    }
+    setTimeout(() => {
+      // si UI se fue a 0, lo devolvemos
+      if (t > 1 && video.currentTime < 1) {
+        video.currentTime = t;
+      }
+    }, 150);
+  });
+
+  // Guardar al terminar
+  video.addEventListener("ended", () => {
+    localStorage.setItem(`player_pos_${id}`, "0");
+    saveProgress(true);
+    showMsg("✅ Reproducción finalizada. Progreso guardado.");
   });
 }
 
@@ -118,7 +147,7 @@ loadPlayer().catch(err => {
   showMsg("Error cargando el reproductor.");
 });
 
-// Helper PUT (si no lo tienes en api.js)
+// Helper PUT si no existe en api.js
 async function apiPut(path, body, auth = false) {
   const headers = { "Content-Type": "application/json" };
   if (auth) {

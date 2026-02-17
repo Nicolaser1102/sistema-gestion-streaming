@@ -15,7 +15,7 @@ import (
 
 func main() {
 	r := gin.Default()
-	r.Static("/static", "./static")
+	r.Static("/statics", "./statics")
 
 	// ✅ CORS (para permitir llamadas desde Live Server: 5500)
 	r.Use(cors.New(cors.Config{
@@ -50,6 +50,8 @@ func main() {
 	subRepo := repositories.NewSubscriptionRepoJSON("data/subscriptions.json")
 	progressRepo := repositories.NewProgressRepoJSON("data/progress.json")
 	playbackHandler := handlers.NewPlaybackHandler(progressRepo, contentRepo)
+
+	continueHandler := handlers.NewContinueHandler(progressRepo, contentRepo)
 
 	api := r.Group("/api")
 	{
@@ -95,6 +97,11 @@ func main() {
 			play.GET("/:contentId", playbackHandler.GetProgress)
 			play.PUT("/:contentId/progress", playbackHandler.UpdateProgress)
 		}
+
+		api.GET("/continue-watching",
+			middleware.AuthJWT(secret),
+			continueHandler.GetContinueWatching,
+		)
 	}
 
 	r.Run(":8080")

@@ -5,5 +5,12 @@
     "expiresAt": "2099-12-31T00:00:00Z",
     "updatedAt": "2026-03-10T00:00:00Z",
     "createdAt": "2026-03-10T00:00:00Z"
+  },
+   {
+    "userId": "20260216182056",
+    "status": "ACTIVE",
+    "expiresAt": "2099-12-31T00:00:00Z",
+    "updatedAt": "2026-03-10T00:00:00Z",
+    "createdAt": "2026-03-10T00:00:00Z"
   }
 ]

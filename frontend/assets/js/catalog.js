@@ -38,6 +38,46 @@ async function loadContents() {
   renderList(data);
 }
 
+/* ===========================
+   CONTINÚA VIENDO
+=========================== */
+
+async function loadContinueWatching() {
+  const container = document.getElementById("continueList");
+  if (!container) return;
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    container.innerHTML = "<p>Inicia sesión para ver tu progreso.</p>";
+    return;
+  }
+
+  try {
+    const items = await apiGet("/continue-watching", true);
+
+    if (!items || items.length === 0) {
+      container.innerHTML = "<p>No tienes contenido en progreso.</p>";
+      return;
+    }
+
+    container.innerHTML = items.map(x => `
+      <div class="card">
+        <h4>${x.content.title}</h4>
+        <p>${Math.floor(x.percent)}% • ${x.seconds}s</p>
+        <a href="player.html?id=${encodeURIComponent(x.content.id)}">Continuar</a>
+      </div>
+    `).join("");
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p>Error cargando 'Continúa viendo'.</p>";
+  }
+}
+
+/* ===========================
+   EVENTOS
+=========================== */
+
 document.getElementById("btnSearch").addEventListener("click", () => {
   loadContents().catch(err => {
     console.error(err);
@@ -50,6 +90,12 @@ loadContents().catch(err => {
   console.error(err);
   document.getElementById("list").innerHTML = "<p>Error cargando catálogo.</p>";
 });
+
+loadContinueWatching();
+
+/* ===========================
+   NAVBAR
+=========================== */
 
 function renderNavbar() {
   const nav = document.getElementById("navbar");

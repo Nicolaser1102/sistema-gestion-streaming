@@ -20,7 +20,7 @@
     "genre": "Drama",
     "year": 2009,
     "durationMin": 50,
-    "VideoURL": "",
+    "VideoURL": "/statics/videos/Breaking_Bad_Intro.mp4",
     "active": true,
     "createdAt": "2025-03-03T10:00:00Z",
     "updatedAt": "2026-02-16T19:29:00.0511928-05:00"
@@ -46,7 +46,7 @@
     "genre": "Acción",
     "year": 2002,
     "durationMin": 120,
-    "VideoURL": "/static/videos/Mazinger_Z_Intro_1.mp4",
+    "VideoURL": "/statics/videos/Mazinger_Z_Intro_1.mp4",
     "active": true,
     "createdAt": "2026-02-16T18:56:07.1618169-05:00",
     "updatedAt": "2026-02-16T19:54:37.8936166-05:00"

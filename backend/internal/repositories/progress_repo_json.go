@@ -99,3 +99,17 @@ func (r *ProgressRepoJSON) Upsert(p models.PlaybackProgress) error {
 	}
 	return os.WriteFile(r.filePath, out, 0644)
 }
+func (r *ProgressRepoJSON) GetByUser(userID string) ([]models.PlaybackProgress, error) {
+	items, err := r.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	out := []models.PlaybackProgress{}
+	for _, it := range items {
+		if it.UserID == userID && it.Seconds > 0 && !it.Completed {
+			out = append(out, it)
+		}
+	}
+	return out, nil
+}
