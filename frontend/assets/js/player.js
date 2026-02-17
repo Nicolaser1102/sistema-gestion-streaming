@@ -84,7 +84,6 @@ async function loadPlayer() {
       console.log("✅ currentTime set to:", startSeconds);
     } else {
       showMsg("Iniciando desde el inicio.");
-      console.log("ℹ️ startSeconds inválido o 0:", startSeconds, "duration:", video.duration);
     }
   }, { once: true });
 
