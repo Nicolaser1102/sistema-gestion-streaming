@@ -30,6 +30,10 @@ function renderDetail(c) {
     renderDetail(content);
 
       await setupMyListButton(id);
+
+    const btnPlay = document.getElementById("btnPlay");
+    if (btnPlay) btnPlay.href = `player.html?id=${encodeURIComponent(id)}`;
+
   } catch (e) {
     console.error(e);
     document.getElementById("detail").innerHTML = "<p>No se pudo cargar el detalle.</p>";

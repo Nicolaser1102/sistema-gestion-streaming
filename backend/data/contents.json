@@ -7,7 +7,7 @@
     "genre": "Sci-Fi",
     "year": 2010,
     "durationMin": 150,
-    "coverURL": "",
+    "VideoURL": "",
     "active": false,
     "createdAt": "2025-03-03T10:00:00Z",
     "updatedAt": "2026-02-16T19:18:41.4054517-05:00"
@@ -20,7 +20,7 @@
     "genre": "Drama",
     "year": 2009,
     "durationMin": 50,
-    "coverURL": "",
+    "VideoURL": "",
     "active": true,
     "createdAt": "2025-03-03T10:00:00Z",
     "updatedAt": "2026-02-16T19:29:00.0511928-05:00"
@@ -33,7 +33,7 @@
     "genre": "Action",
     "year": 2025,
     "durationMin": 120,
-    "coverURL": "",
+    "VideoURL": "",
     "active": false,
     "createdAt": "2026-02-16T18:53:46.3602098-05:00",
     "updatedAt": "2026-02-16T19:54:18.7176423-05:00"
@@ -46,7 +46,7 @@
     "genre": "Acción",
     "year": 2002,
     "durationMin": 120,
-    "coverURL": "",
+    "VideoURL": "/static/videos/Mazinger_Z_Intro_1.mp4",
     "active": true,
     "createdAt": "2026-02-16T18:56:07.1618169-05:00",
     "updatedAt": "2026-02-16T19:54:37.8936166-05:00"
@@ -59,7 +59,7 @@
     "genre": "Acción",
     "year": 2005,
     "durationMin": 125,
-    "coverURL": "",
+    "VideoURL": "",
     "active": true,
     "createdAt": "2026-02-16T19:50:24.5495753-05:00",
     "updatedAt": "2026-02-16T19:50:24.5495753-05:00"
